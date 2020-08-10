@@ -1,9 +1,12 @@
-### 学习笔记
-#### Django 项目
+## 学习笔记
+### Django 项目
 
 环境：Windows10 Python3
 
 项目：learning_log  
+
+#### 创建虚拟环境及项目
+
 1. 创建工作目录
 - mkdir learning_log
 
@@ -32,17 +35,19 @@ $ django-admin.py startproject learning_log .   (切忌不要忘记最后还有�
 - ll_env  虚拟环境
 - manage.py 接受命令并将其交给 Django 的相关部分去执行
   
-learnging_log 文件夹下面包含的文件：  
+learnging_log 文件夹下面包含的文件：    
 - __init__.py  空文件夹，表示 learnging_log 目录是 python 的标准包
 - setting.py 指定 Django 如何与系统进行交互和如何管理项目，配置文件，包含Django 模块应用配置、数据库配置、模板配置等
 - urls.py 告诉 Django 应创建哪些网页来响应浏览器请求，定义 URLconf
 - wsgi.py(wsgi: web server gateway interface Web 服务器网关接口) 帮助 Django 提供它创建的文件，提供服务的入口
 
-5. 创建数据库(迁移数据库)
+#### 创建数据库及应用
+
+1. 创建数据库(迁移数据库)
 - pyton manage.py migrate  Django 默认使用 sqllite 数据库
 
 
-6. 创建应用程序
+2. 创建应用程序
 - 命令：python manage.py startap appname （在 manage.py 所在的目录下面执行该命令）
 $ python manage.py startapp learning_logs  
 应用上面的命令后，创建了应用程序所需的基础设施  
@@ -55,7 +60,7 @@ $ python manage.py startapp learning_logs
 - views.py
 
 
-7. 在 learning_log/setting.py 中，找到 INSTALLED_APPS ，这里告诉 Django 哪些应用程序安装在项目中，  
+3. 在 learning_log/setting.py 中，找到 INSTALLED_APPS ，这里告诉 Django 哪些应用程序安装在项目中，  
 前面新建的应用 learning_logs 也必须添加到这里  
 
 ```python
@@ -72,7 +77,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-8. 对应用修改数据库，创建模型，创建表，使其能够存储与模型 Topic 相关的信息
+4. 对应用修改数据库，创建模型，创建表，使其能够存储与模型 Topic 相关的信息
 ```python
 $ python manage.py makemigrations learning_logs  
 # 作用：让 Django 确定如何修改数据库，使其能够存储与定义的新模型相关联的数据 
@@ -90,8 +95,22 @@ Running migrations:
   Applying learning_logs.0001_initial... OK
 ```
 
-
 若数据库发生改变需要修改数据，采取的三个步骤：
 - 修改 models.py
 - 对应用调用 makemigrations
 - 对 Django 迁移项目，使用 migrate 命令
+
+#### 管理网站
+
+1. 创建超级用户  
+- $ python manage.py createsuperuser  
+Django 自动在管理网站添加了 User 和 Group 模型  
+对于 Topic 模型，仍需要手工创建  
+```python
+from django.contrib import admin
+from learning_logs.models import Topic
+
+# Register your models here.
+admin.site.register(Topic)
+```
+
