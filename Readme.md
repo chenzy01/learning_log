@@ -15,7 +15,7 @@
 
 3. 激活虚拟环境
 - source ll_env/Scripts/activate （Wnidows 系统）
-- source ll_env/Scripts/activate (Linux 中用法)  
+- source ll_env/bin/activate (Linux 中用法)  
 
 停止使用虚拟环境
 - deactivate  
@@ -33,10 +33,10 @@ $ django-admin.py startproject learning_log .   (切忌不要忘记最后还有�
 - manage.py 接受命令并将其交给 Django 的相关部分去执行
   
 learnging_log 文件夹下面包含的文件：  
-- __init__.py 
-- setting.py 指定 Django 如何与系统进行交互和如何管理项目
-- urls.py 告诉 Django 应创建哪些网页来响应浏览器请求
-- wsgi.py(wsgi: web server gateway interface Web 服务器网关接口) 帮助 Django 提供它创建的文件
+- __init__.py  空文件夹，表示 learnging_log 目录是 python 的标准包
+- setting.py 指定 Django 如何与系统进行交互和如何管理项目，配置文件，包含Django 模块应用配置、数据库配置、模板配置等
+- urls.py 告诉 Django 应创建哪些网页来响应浏览器请求，定义 URLconf
+- wsgi.py(wsgi: web server gateway interface Web 服务器网关接口) 帮助 Django 提供它创建的文件，提供服务的入口
 
 5. 创建数据库(迁移数据库)
 - pyton manage.py migrate  Django 默认使用 sqllite 数据库
@@ -81,7 +81,7 @@ $ python manage.py makemigrations learning_logs
 - 0001_initial.py 迁移文件，后面的 migrate 命令会根据这个文件，在数据库中给模型 Topic 创建一个表
 - __init__.py  
 
-执行迁移命令  
+执行迁移命令,注意最下面一行提示  
 ```python
 $ python manage.py migrate
 Operations to perform:
@@ -89,7 +89,7 @@ Operations to perform:
 Running migrations:
   Applying learning_logs.0001_initial... OK
 ```
-注意最下面一行提示
+
 
 若数据库发生改变需要修改数据，采取的三个步骤：
 - 修改 models.py
