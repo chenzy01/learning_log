@@ -149,3 +149,67 @@ Migrations for 'learning_logs':
     - Create model Entry
 ```
 
+启动一个Python解释器，并查询项目数据库中的数据  
+
+```python
+$ python manage.py shell
+>>> from learning_logs.models import Topic
+>>>Topic.objects.all()
+```
+
+
+
+#### 创建学习笔记主业
+
+1. 定义 url 
+
+定义主页的地址
+url 函数参数解析：
+1. r'^$' 正则表达式，Django 在 urlpatterns 中查找与请求的URL字符串相匹配的正则表达式，
+，所以正则表达式定义了 Django 可查找的模式， 
+r 表示把字符串当做原始字符串，
+'' 引号表示正则表达式从哪开始,从哪结束
+^ 脱字符，让python查看字符串的开头
+$ 美元符号让python查看字符串的结尾
+该正则表达式与基础url相匹配：http://localhost:8000/
+2. views.index 指定了要调用的视图函数  
+3. name='index' 将这个url模式的名称指定为 index，以便代码在其他地方可以引用
+
+```python
+from django.conf.urls import url  # 用 url 函数 将地址映射到视图
+
+from . import views  # 从当前 urls.py 所在的目录下，导入 views（视图）
+
+# 该模块定义了可在管理网站中请求的所有URL
+# learning_logs.urls 模块的urls，还定义了 namespace ，将 learning_logs 的url与项目中的其它url区分开来
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'', include('learning_logs.urls', namespace='learning_logs')),
+]
+```
+
+2. 编写视图
+
+Django 在文件 views.py 中查找函数 index()，再将请求对象传递给这个视图函数  
+render() 提供两个实参：  
+1. 原始请求对象
+2. 可用于创建网页的模板
+
+```python
+from django.shortcuts import render
+# Create your views here.
+def index(request):
+    return render(request, 'learning_logs/index.html')
+```
+
+3. 编写模板 
+模板定义了网页的结构，模板一般存在在项目的 templates 目录下，因此在 templates 下创建 learning_logs，
+在 learning_logs 下面创建 index.html 。 这样做的好处是将 URL、视图和模板分离开来，当项目扩大时，可以考虑
+不同方向，且让参与者可以专注其擅长的方向，分工明确。
+index.html 
+```html
+<p>Learning Log</p>
+
+<p>Learning Log helps you keep track of yhour learning, for any topic you`re learning about</p>
+```
+
