@@ -111,6 +111,7 @@ migrate 作用，将当前的migration文件内容持久化到数据库中，比
 
 1. 创建超级用户  
 - $ python manage.py createsuperuser  
+
 Django 自动在管理网站添加了 User 和 Group 模型  
 对于 Topic 模型，仍需要手工创建  
 ```python
@@ -159,12 +160,12 @@ $ python manage.py shell
 
 
 
-#### 创建学习笔记主业
+#### 创建学习笔记主页
 
 1. 定义 url 
 
-定义主页的地址
-url 函数参数解析：
+定义主页的地址  
+url 函数参数解析： 
 1. r'^$' 正则表达式，Django 在 urlpatterns 中查找与请求的URL字符串相匹配的正则表达式，
 ，所以正则表达式定义了 Django 可查找的模式， 
 r 表示把字符串当做原始字符串，
@@ -212,4 +213,13 @@ index.html
 
 <p>Learning Log helps you keep track of yhour learning, for any topic you`re learning about</p>
 ```
+
+#### 创建其他网页
+
+该部分扩充了两个显示数据的新网页。首先创建了一个父模板HTML，新的网页都继承这个父模板来显示数据，其中一个
+显示所有特定主题，另一个显示所有主题的条目 
+
+1. 
+
+
 
