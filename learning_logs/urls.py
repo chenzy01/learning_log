@@ -18,9 +18,13 @@ $ 美元符号让python查看字符串的结尾
 3. name='index' 将这个url模式的名称指定为 index，以便代码在其他地方可以引用
 """
 urlpatterns = [
-    url(r'^$', views.index, name='index'),  # 让python查找开头和末尾之间没有任何东西的url
+    # 让python查找开头和末尾之间没有任何东西的url
+    url(r'^$', views.index, name='index'),
     url(r'^topics/$', views.topics, name='topics'),
-    url(r'^topics/(?P<topic_id>\d+)/$', views.topic, name='topic')  # topic_id与某个主题对应，以此来获取
+    # topic_id与某个主题对应，以此来获取
+    url(r'^topics/(?P<topic_id>\d+)/$', views.topic, name='topic'),
+    # 新主题的网页
+    url(r'^new_topic/$', views.new_topic, name='new_topic'),
 ]
 
 """
