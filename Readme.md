@@ -219,7 +219,95 @@ index.html
 该部分扩充了两个显示数据的新网页。首先创建了一个父模板HTML，新的网页都继承这个父模板来显示数据，其中一个
 显示所有特定主题，另一个显示所有主题的条目 
 
-1. 
+1. base.html 
+```html
+<p>
+    <a href="{% url 'learning_logs:index' %}">Learning Log</a> -
+</p>
+
+{% block content %}{% endblock content %}
+``` 
+该模板是一个基础模板，其他网页的模板都继承这个模板再去添加内容。  
+模板标签 {% url 'learning_logs:index' %} 生成一个URL，该 URL 与 learning_logs:index 中定义的名为 index  
+的 URL 模式匹配。
+
+2. 子模板 
+重新编写 index.html  
+
+```html
+{% extends "learning_logs/base.html" %}
+{% block content %}
+<p>Learning Log helps you keep track of yhour learning, for any topic you`re learning about</p>
+{% endblock content %}
+```
+字模板第一行必须包含标签 {% extends %} ，让 Django 知道是继承了那个父模板。在子模板中，只需包含当前网页要
+要增加的内容。
+
+#### 显示所有主题的页面
+
+该部分显示用户创建的主题  
+
+1. 首先，修改 learning_logs/urls.py，定义一个能显示所有主题的 url
+```python
+rlpatterns = [
+    url(r'^$', views.index, name='index'),  # 让python查找开头和末尾之间没有任何东西的url
+    # 显示所有的主题
+    url(r'^topics/$', views.topics, name='topics'),
+]
+```
+Django 在请求 url 时，会去检查与这样一个url模式相匹配， topics/ ,该模式添加在基础 url 后面，即  
+在 http://localhost:8000/ 后面跟着 topics/ ,topics/ 后面不能跟着其它东西，否则 url 不匹配。
+
+2. 请求的 url 与上面的模式相匹配后，得到的请求都交给 views.py 中的 topics() 进行处理 
+
+在 views.py 中定义 topics() 
+```python
+from .models import Topic
+def topics(request):
+    """显示所有的主题"""
+    topics = Topic.objects.order_by('date_added')  # 查询数据库时，请求提供 Topic 对象，按属性 date_added 对数据进行排序
+    context = {'topics': topics}  # context 是一个发送给模板的上下文，通过 render() 进行传递
+    return render(request, 'learning_logs/topics.html', context)
+```
+
+3. 在 index.html 同目录下创建 topics.html 模板，该模板接受来自 render() 的传递的字典 context。
+```python
+{% extends "learning_logs/base.html" %}
+
+{% block content %}
+
+  <p>Topics</p>
+    <ul>
+        {% for topic in topics %}
+          <li>
+              <a href="{% url 'learning_logs:topic' topic_id %}">{{ topic }}</a>
+          </li>
+        {% empty %}
+          <li>No topics have been added yet.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}
+```
+该模板中打印了用户输入的主题。 {% extends %} 表明继承了哪个父模板。标签<ul></ul>表示无序列表。
+标签<li></li>用来显示项目列表项，即每个主题。 模板标签{% empty %}，告诉Django在列表为空时该怎么操作。
+
+4. 修改父模板，使其包含到显示所有主题的页面的链接  
+ 
+```html
+<p>
+    <a href="{% url 'learning_logs:index' %}">Learning Log</a> -
+    <a href="{% url 'learning_logs:topics' %}">Topics</a>
+</p>
+
+{% block content %}{% endblock content %}
+``` 
+
+
+
+
+
+
 
 
 
