@@ -21,10 +21,12 @@ urlpatterns = [
     # 让python查找开头和末尾之间没有任何东西的url
     url(r'^$', views.index, name='index'),
     url(r'^topics/$', views.topics, name='topics'),
-    # topic_id与某个主题对应，以此来获取
+    # topic_id与某个主题对应，以此来捕获一个数字值，存储在topic_id中
     url(r'^topics/(?P<topic_id>\d+)/$', views.topic, name='topic'),
     # 新主题的网页
     url(r'^new_topic/$', views.new_topic, name='new_topic'),
+    # 用于添加新条目的页面
+    url(r'^new_entry/(?P<topic_id>\d+)/$', views.new_entry, name='new_entry'),
 ]
 
 """
