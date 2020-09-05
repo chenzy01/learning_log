@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -10,6 +11,7 @@ class Topic(models.Model):
     text = models.CharField(max_length=200)
     # DateTimeField 记录日期和时间的数据，auto_now_add=True 该属性在用户创建主题时，就会自动设置成当前日期和时间
     date_added = models.DateTimeField(auto_now_add=True)
+    ower = models.ForeignKey(User)  # 建议与模型User的外键关系
 
     def __str__(self):
         """返回模型的字符串表示"""

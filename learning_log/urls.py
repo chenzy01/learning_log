@@ -13,9 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
+# 该模块定义了可在管理网站中请求的所有URL
+# learning_logs.urls 模块的urls，还定义了 namespace ，将 learning_logs 的url与项目中的其它url区分开来
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^users/', include('users.urls', namespace='users')),
+    url(r'', include('learning_logs.urls', namespace='learning_logs')),
 ]
